@@ -1,0 +1,8 @@
+name: The-Boys-Classes
+version: 0.1.0-BETA
+author: Lightning
+description: Yeti
+main: com.Lightning.theboysclasses.Main
+api-version: 1.18
+commands:
+  class:
