@@ -1,5 +1,6 @@
 package com.Lightning.theboysclasses.items;
 
+import com.Lightning.theboysclasses.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
@@ -13,29 +14,25 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class itemEvents implements Listener {
-    private HashMap<UUID, Long> cooldown = new HashMap<UUID, Long>();
-    private int cooldowntime = 5;
+
+    private Main plugin = Main.getPlugin(Main.class);
 
     @EventHandler
-    public static void onLeftClick(PlayerInteractEvent event) {
-        Player p = event.getPlayer()
-        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            if (cooldown.containsKey(p.getUniqueId())) {
-                long secondsleft - ((cooldown.get(p.getUniqueId())) / 1000 + cooldowntime) - (System.currentTimeMillis() / 1000);
-                if (secondsleft > 0) {
-                    p.sendMessage(ChatColor.RED + "You can't use that for another" + secondsleft + " seconds");
-                }
-                else {
-                    if (event.getItem() != null) {
-                        if (Objects.requireNonNull(event.getItem().getItemMeta()).equals(itemManager.BlazeWand.getItemMeta())) {
-                            Player player = event.getPlayer();
-                            player.launchProjectile(Fireball.class);
-                        }
+    public void onLeftClick(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+        UUID uuid = p.getUniqueId();
+        if (plugin.cdtime.containsKey(uuid)) {
+            p.sendMessage(ChatColor.RED + "You can't use that for another " + ChatColor.YELLOW + plugin.cdtime.get(uuid) + ChatColor.RED + " seconds.");
+        } else {
+            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getItem() != null) {
+                    if (Objects.requireNonNull(event.getItem().getItemMeta()).equals(itemManager.BlazeWand.getItemMeta())) {
+                        plugin.cdtime.put(uuid, plugin.mastercd);
+                        Player player = event.getPlayer();
+                        player.launchProjectile(Fireball.class);
                     }
                 }
             }
         }
     }
-
-
 }

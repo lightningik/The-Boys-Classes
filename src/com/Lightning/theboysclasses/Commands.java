@@ -16,18 +16,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class Commands implements Listener {
 
     private Inventory gui;
+    ItemStack item = new ItemStack(Material.BLAZE_POWDER);
+    ItemStack item2 = new ItemStack(Material.ELYTRA);
 
     public void openNewGui(Player p) {
         gui = Bukkit.createInventory(null, 54, "Pick Your Class");
 
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setDisplayName(ChatColor.RED + "Fire Mage");
         item.setItemMeta(meta);
 
-        gui.setItem(1, item);
+        gui.setItem(12, item);
 
         p.openInventory(gui);
     }
@@ -46,7 +48,8 @@ public class Commands implements Listener {
         final Player p = (Player) e.getWhoClicked();
 
         // Using slots click is a best option for your inventory click's
-        p.getInventory().addItem(itemManager.BlazeWand);
+        if (clickedItem == item)
+            p.getInventory().addItem(itemManager.BlazeWand);
     }
 
     @EventHandler
