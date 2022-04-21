@@ -1,4 +1,4 @@
-package com.Lightning.theboysclasses;
+package com.Lightning.theboysclasses.GUI;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

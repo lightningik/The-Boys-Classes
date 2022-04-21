@@ -1,4 +1,4 @@
-package com.Lightning.theboysclasses;
+package com.Lightning.theboysclasses.GUI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

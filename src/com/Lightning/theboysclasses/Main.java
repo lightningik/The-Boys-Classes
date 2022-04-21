@@ -1,5 +1,7 @@
 package com.Lightning.theboysclasses;
 
+import com.Lightning.theboysclasses.GUI.Commands;
+import com.Lightning.theboysclasses.GUI.GuiCommand;
 import com.Lightning.theboysclasses.cooldowns.CDmanager;
 import com.Lightning.theboysclasses.items.itemEvents;
 import com.Lightning.theboysclasses.items.itemManager;
@@ -12,12 +14,19 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class Main extends JavaPlugin {
+
+    private static Main plugin;
+    public static Main getPlugin() {
+        return plugin;
+    }
 
     public HashMap<UUID, Integer> cdtime = new HashMap<UUID, Integer>();
     public int mastercd = 5;
+
+    public static void setPlugin(Main plugin) {
+        Main.plugin = plugin;
+    }
 
     @Override
     public void onEnable() {
@@ -29,6 +38,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CDmanager(), this);
         loadConfig();
         runnablerunner();
+        plugin = this;
     }
 
     public void loadConfig() {
@@ -66,5 +76,8 @@ public class Main extends JavaPlugin {
     public void onDisable(){
         getLogger().info(ChatColor.BLUE + "[TBC] Plugin shutting down.");
     }
+
+
+
 
 }

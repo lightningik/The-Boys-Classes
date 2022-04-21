@@ -1,4 +1,4 @@
-package com.Lightning.theboysclasses;
+package com.Lightning.theboysclasses.GUI;
 
 import com.Lightning.theboysclasses.items.itemManager;
 import org.bukkit.Bukkit;
@@ -26,10 +26,16 @@ public class Commands implements Listener {
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setDisplayName(ChatColor.RED + "Fire Mage");
+        meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD  + "Fire Mage");
         item.setItemMeta(meta);
 
+        ItemMeta meta2 = item.getItemMeta();
+        assert meta2 != null;
+        meta2.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Dreamer");
+        item2.setItemMeta(meta2);
+
         gui.setItem(12, item);
+        gui.setItem(14, item2);
 
         p.openInventory(gui);
     }
@@ -48,8 +54,13 @@ public class Commands implements Listener {
         final Player p = (Player) e.getWhoClicked();
 
         // Using slots click is a best option for your inventory click's
-        if (clickedItem == item)
+        if (clickedItem.getType() == Material.BLAZE_POWDER) {
             p.getInventory().addItem(itemManager.BlazeWand);
+        }
+
+        if (clickedItem.getType() == Material.ELYTRA) {
+            p.getInventory().addItem(itemManager.BlazeWand);
+        }
     }
 
     @EventHandler
