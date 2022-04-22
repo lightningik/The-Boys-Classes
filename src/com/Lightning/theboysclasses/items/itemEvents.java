@@ -1,6 +1,7 @@
 package com.Lightning.theboysclasses.items;
 
 import com.Lightning.theboysclasses.Main;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -10,23 +11,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class itemEvents implements Listener {
 
     private Main plugin = Main.getPlugin(Main.class);
 
     @EventHandler
-    public void onLeftClick(PlayerInteractEvent event) {
+    public void onRightClick(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         UUID uuid = p.getUniqueId();
         if (plugin.cdtime.containsKey(uuid)) {
-            p.sendMessage(ChatColor.RED + "You can't use that for another " + ChatColor.YELLOW + plugin.cdtime.get(uuid) + ChatColor.RED + " seconds.");
+            p.sendMessage(ChatMessageType.ACTION_BAR + "" + ChatColor.RED +  "You can't use that for another " + ChatColor.YELLOW + plugin.cdtime.get(uuid) + ChatColor.RED + " seconds.");
         } else {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if (Objects.requireNonNull(event.getItem().getItemMeta()).equals(itemManager.BlazeWand.getItemMeta())) {
@@ -44,7 +48,7 @@ public class itemEvents implements Listener {
                         new BukkitRunnable(){
                             @Override
                             public void run() {
-                                p.spawnParticle(Particle.FLAME, location.add(1, 0, 0), 50);
+                                p.spawnParticle(Particle.FLAME, location.add(0, 0, 0), 100);
                                 locationX[0] = locationX[0] + 0.1;
                             }
                         }.runTaskTimerAsynchronously(Main.getPlugin(), 0, 5); //every half a second
@@ -52,4 +56,14 @@ public class itemEvents implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onItemDrop(PlayerDropItemEvent e){
+        Player p = e.getPlayer();
+        if (Objects.equals(e.getItemDrop().getItemStack().getItemMeta(), itemManager.BlazeWand.getItemMeta())) {
+            e.setCancelled(true);
+        }
+    }
+
+
 }

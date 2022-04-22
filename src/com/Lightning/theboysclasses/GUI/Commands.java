@@ -1,6 +1,7 @@
 package com.Lightning.theboysclasses.GUI;
 
 import com.Lightning.theboysclasses.items.itemManager;
+import com.Lightning.theboysclasses.powers.firemage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,19 +24,12 @@ public class Commands implements Listener {
         gui = Bukkit.createInventory(null, 54, "Pick Your Class");
 
 
+        int slot = 12;
+        for (firemage clazz : firemage.values()) {
+           gui.setItem(slot, clazz.getIcon());
+           slot++;
+        }
 
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD  + "Fire Mage");
-        item.setItemMeta(meta);
-
-        ItemMeta meta2 = item.getItemMeta();
-        assert meta2 != null;
-        meta2.setDisplayName(ChatColor.AQUA + "" + ChatColor.BOLD + "Dreamer");
-        item2.setItemMeta(meta2);
-
-        gui.setItem(12, item);
-        gui.setItem(14, item2);
 
         p.openInventory(gui);
     }
